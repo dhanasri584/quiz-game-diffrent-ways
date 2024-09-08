@@ -192,7 +192,7 @@ void displayResults(int score) {
         cout << "Question " << wrongAnswers[i] << endl;
     }
 }
-3)using vectors which is a better approach since arrays are fixed but vectors are not fixed
+3)using arrays
 
 #include <iostream>
 using namespace std;
@@ -288,4 +288,108 @@ void displayResults(int score, int arr[], int count) {
     for (int i = 0; i < count; ++i) {
         cout << "Question " << arr[i] << endl;
     }
+}
+3).using arrays 
+#include <iostream>
+#include<vector>
+using namespace std;
+
+int main()
+{
+    int count=0;
+    vector<int> wronganswers;
+    int correct=0;
+    int wrong=0;
+    int finalresult=0;
+    int score=0;
+    void playquiz(int &score,vector<int> &wronganswers,int &correct,int &wrong);//this is function protype agar kuch return karein ya na bhi karein u have to mention this in order to work
+    playquiz(score,wronganswers,correct,wrong);
+    cout<<"hence ur final result"<<finalresult;
+    if(finalresult>=1){
+        cout<<"u passes the test congooooo sharma ji ke bete!!!"<<endl;
+        
+    }
+    else{
+        cout<<"oopsie bhai u failed";
+    }
+    
+    cout<<"these are all the questions u answered wrong"<<endl;
+    for(int q:wronganswers){
+        cout<<q<<endl;
+    }
+    cout<<"hence the number of right answers are  "<<correct<<endl;
+    cout<<"hence the number of wrong answers are  "<<wrong<<endl;
+    
+    
+
+    return 0;
+}
+void playquiz(int &score,vector<int> &wronganswers,int &correct,int &wrong){
+   
+    cout<<"---------welcome to quiz appliacation-----------------\n";
+    cout<<"-------------pls follow the instructions--------------"<<endl;
+    cout<<"1)u will be having 3 questions"<<endl;
+    cout<<"2)u will be given 1 marks for each right answer"<<endl;
+    cout<<"there will be negative marking"<<endl;
+    cout<<"pls press s to start the quiz"<<endl;
+    cout<<" ";
+    char c;
+    cin>>c;
+   
+    if(c=='s' || c=='S'){
+        cout<<"1) Which of the three banks will be merged with the other two to create India’s third-largest bank?"<<endl;
+        cout<<"a)Punjab National Bank\n b) Indian Bank \nc)Bank of Baroda \nd)Dena Bank"<<endl;
+        char option;
+        cin>>option;
+        if(option=='a'||option=='c'||option=='d'){
+            cout<<"wrong option";
+            score=score-1;
+            wronganswers.push_back(1);
+            wrong+=1;
+            
+        }
+        else{
+            cout<<"correct answer\n";
+            score=score+1;
+            correct+=1;
+            
+        }
+        cout<<"2)how many colosrs do raibow have?"<<endl;
+        cout<<"a)9\n b) 10\nc)7 \nd)0"<<endl;
+        //char option; not required to re declare it
+        cin>>option;
+        if(option=='a'||option=='b'||option=='d'){
+            cout<<"wrong option";
+            score=score-1;
+            wronganswers.push_back(2);
+            wrong+=1;
+            
+        }
+        else{
+            cout<<"correct answer\n";
+            score=score+1;
+            correct+=1;
+        }
+        cout<<"3)prime misnister kon hain bhai ?"<<endl;
+        cout<<"a)rahul gandhi\n b) narendra modi\nc)mamta banerjee\nd)anadi desh hain"<<endl;
+        //char option; not required to re declare it
+        cin>>option;
+        if(option=='a'||option=='c'||option=='d'){
+           
+            score=score-1;
+            wronganswers.push_back(3);
+            wrong+=1;
+           
+        }
+        else{
+            
+            score=score+1;
+            correct+=1;
+        }
+        
+    }
+    else{
+        cout<<"u have entered wrong character pls enter s/S";
+    }
+    
 }
