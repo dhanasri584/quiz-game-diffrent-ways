@@ -1,32 +1,291 @@
-# Prerequisites
-*.d
+1) using arrays  
+#include <iostream>
+using namespace std;
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+int playquiz(int arr[], int &count); // Updated prototype
+void displayResults(int score, int arr[], int count);
 
-# Precompiled Headers
-*.gch
-*.pch
+int main() {
+    int finalresult = 0;
+    int count = 0;
+    int arr[3]; // Array to hold wrong answers
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+    // Call the function to play the quiz and get the results
+    finalresult = playquiz(arr, count);
 
-# Fortran module files
-*.mod
-*.smod
+    // Display the final results and the wrong answers
+    displayResults(finalresult, arr, count);
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+    return 0;
+}
 
-# Executables
-*.exe
-*.out
-*.app
+int playquiz(int arr[], int &count) {
+    cout << "--------- Welcome to the Quiz Application -----------------\n";
+    cout << "------------- Please follow the instructions --------------" << endl;
+    cout << "1) You will be having 3 questions" << endl;
+    cout << "2) You will be given 1 mark for each correct answer" << endl;
+    cout << "There will be negative marking for wrong answers" << endl;
+    cout << "Please press 's' to start the quiz" << endl;
+    cout << " ";
+    char c;
+    cin >> c;
+
+    int score = 0;
+    count = 0;
+
+    if (c == 's' || c == 'S') {
+        char option;
+
+        // Question 1
+        cout << "1) Which of the three banks will be merged with the other two to create India’s third-largest bank?" << endl;
+        cout << "a) Punjab National Bank\nb) Indian Bank\nc) Bank of Baroda\nd) Dena Bank" << endl;
+        cin >> option;
+        if (option == 'a' || option == 'c' || option == 'd') {
+            cout << "Wrong option" << endl;
+            score -= 1;
+            arr[count++] = 1;
+        } else {
+            cout << "Correct answer!" << endl;
+            score += 1;
+        }
+
+        // Question 2
+        cout << "2) How many colors does a rainbow have?" << endl;
+        cout << "a) 9\nb) 10\nc) 7\nd) 0" << endl;
+        cin >> option;
+        if (option == 'a' || option == 'b' || option == 'd') {
+            cout << "Wrong option" << endl;
+            score -= 1;
+            arr[count++] = 2;
+        } else {
+            cout << "Correct answer!" << endl;
+            score += 1;
+        }
+
+        // Question 3
+        cout << "3) Who is the Prime Minister of India?" << endl;
+        cout << "a) Rahul Gandhi\nb) Narendra Modi\nc) Mamta Banerjee\nd) Anadi Desh" << endl;
+        cin >> option;
+        if (option == 'a' || option == 'c' || option == 'd') {
+            cout << "Wrong option" << endl;
+            score -= 1;
+            arr[count++] = 3;
+        } else {
+            cout << "Correct answer!" << endl;
+            score += 1;
+        }
+    } else {
+        cout << "You have entered a wrong character. Please enter 's' or 'S' to start the quiz." << endl;
+    }
+
+    return score;
+}
+
+void displayResults(int score, int arr[], int count) {
+    cout << "Hence, your final result: " << score << endl;
+    if (score >= 1) {
+        cout << "You passed the test! Congrats!" << endl;
+    } else {
+        cout << "Oopsie, you failed." << endl;
+    }
+
+    cout << "These are all the questions you answered wrong:" << endl;
+    for (int i = 0; i < count; ++i) {
+        cout << "Question " << arr[i] << endl;
+    }
+}
+2) using global variables 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Global constants
+const int NUM_QUESTIONS = 3;  // Number of questions in the quiz
+
+// Global arrays
+string questions[NUM_QUESTIONS] = {
+    "1) Which of the three banks will be merged with the other two to create India’s third-largest bank?",
+    "2) How many colors does a rainbow have?",
+    "3) Who is the Prime Minister of India?"
+};
+
+string options[NUM_QUESTIONS][4] = {
+    {"a) Punjab National Bank", "b) Indian Bank", "c) Bank of Baroda", "d) Dena Bank"},
+    {"a) 9", "b) 10", "c) 7", "d) 0"},
+    {"a) Rahul Gandhi", "b) Narendra Modi", "c) Mamta Banerjee", "d) Anadi Desh"}
+};
+
+char correctAnswers[NUM_QUESTIONS] = {'b', 'c', 'b'};  // Correct answers (option 'b', 'c', 'b')
+
+// Global variables for tracking wrong answers
+int wrongAnswers[NUM_QUESTIONS];
+int wrongCount = 0;
+
+// Function prototypes
+int playquiz();
+void displayResults(int score);
+
+int main() {
+    int finalScore = 0;
+
+    // Call the function to play the quiz and get the results
+    finalScore = playquiz();
+
+    // Display the final results and the wrong answers
+    displayResults(finalScore);
+
+    return 0;
+}
+
+int playquiz() {
+    cout << "--------- Welcome to the Quiz Application -----------------\n";
+    cout << "------------- Please follow the instructions --------------" << endl;
+    cout << "1) You will be having " << NUM_QUESTIONS << " questions" << endl;
+    cout << "2) You will be given 1 mark for each correct answer" << endl;
+    cout << "There will be negative marking for wrong answers" << endl;
+    cout << "Please press 's' to start the quiz" << endl;
+    cout << " ";
+    
+    char startChar;
+    cin >> startChar;
+
+    int score = 0;
+    wrongCount = 0; // Reset wrong count
+
+    if (startChar == 's' || startChar == 'S') {
+        char answer;
+
+        for (int i = 0; i < NUM_QUESTIONS; ++i) {
+            cout << questions[i] << endl;
+            for (int j = 0; j < 4; ++j) {
+                cout << options[i][j] << endl;
+            }
+            cin >> answer;
+            
+            if (answer == correctAnswers[i]) {
+                cout << "Correct answer!" << endl;
+                score += 1;
+            } else {
+                cout << "Wrong option" << endl;
+                score -= 1;
+                wrongAnswers[wrongCount++] = i + 1;  // Store the question number (1-based)
+            }
+        }
+    } else {
+        cout << "You have entered a wrong character. Please enter 's' or 'S' to start the quiz." << endl;
+    }
+
+    return score;
+}
+
+void displayResults(int score) {
+    cout << "Hence, your final result: " << score << endl;
+    if (score >= 1) {
+        cout << "You passed the test! Congrats!" << endl;
+    } else {
+        cout << "Oopsie, you failed." << endl;
+    }
+
+    cout << "These are all the questions you answered wrong:" << endl;
+    for (int i = 0; i < wrongCount; ++i) {
+        cout << "Question " << wrongAnswers[i] << endl;
+    }
+}
+3)using vectors which is a better approach since arrays are fixed but vectors are not fixed
+
+#include <iostream>
+using namespace std;
+
+int playquiz(int arr[], int &count); // Updated prototype
+void displayResults(int score, int arr[], int count);
+
+int main() {
+    int finalresult = 0;
+    int count = 0;
+    int arr[3]; // Array to hold wrong answers
+
+    // Call the function to play the quiz and get the results
+    finalresult = playquiz(arr, count);
+
+    // Display the final results and the wrong answers
+    displayResults(finalresult, arr, count);
+
+    return 0;
+}
+
+int playquiz(int arr[], int &count) {
+    cout << "--------- Welcome to the Quiz Application -----------------\n";
+    cout << "------------- Please follow the instructions --------------" << endl;
+    cout << "1) You will be having 3 questions" << endl;
+    cout << "2) You will be given 1 mark for each correct answer" << endl;
+    cout << "There will be negative marking for wrong answers" << endl;
+    cout << "Please press 's' to start the quiz" << endl;
+    cout << " ";
+    char c;
+    cin >> c;
+
+    int score = 0;
+    count = 0;
+
+    if (c == 's' || c == 'S') {
+        char option;
+
+        // Question 1
+        cout << "1) Which of the three banks will be merged with the other two to create India’s third-largest bank?" << endl;
+        cout << "a) Punjab National Bank\nb) Indian Bank\nc) Bank of Baroda\nd) Dena Bank" << endl;
+        cin >> option;
+        if (option == 'a' || option == 'c' || option == 'd') {
+            cout << "Wrong option" << endl;
+            score -= 1;
+            arr[count++] = 1;
+        } else {
+            cout << "Correct answer!" << endl;
+            score += 1;
+        }
+
+        // Question 2
+        cout << "2) How many colors does a rainbow have?" << endl;
+        cout << "a) 9\nb) 10\nc) 7\nd) 0" << endl;
+        cin >> option;
+        if (option == 'a' || option == 'b' || option == 'd') {
+            cout << "Wrong option" << endl;
+            score -= 1;
+            arr[count++] = 2;
+        } else {
+            cout << "Correct answer!" << endl;
+            score += 1;
+        }
+
+        // Question 3
+        cout << "3) Who is the Prime Minister of India?" << endl;
+        cout << "a) Rahul Gandhi\nb) Narendra Modi\nc) Mamta Banerjee\nd) Anadi Desh" << endl;
+        cin >> option;
+        if (option == 'a' || option == 'c' || option == 'd') {
+            cout << "Wrong option" << endl;
+            score -= 1;
+            arr[count++] = 3;
+        } else {
+            cout << "Correct answer!" << endl;
+            score += 1;
+        }
+    } else {
+        cout << "You have entered a wrong character. Please enter 's' or 'S' to start the quiz." << endl;
+    }
+
+    return score;
+}
+
+void displayResults(int score, int arr[], int count) {
+    cout << "Hence, your final result: " << score << endl;
+    if (score >= 1) {
+        cout << "You passed the test! Congrats!" << endl;
+    } else {
+        cout << "Oopsie, you failed." << endl;
+    }
+
+    cout << "These are all the questions you answered wrong:" << endl;
+    for (int i = 0; i < count; ++i) {
+        cout << "Question " << arr[i] << endl;
+    }
+}
